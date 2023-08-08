@@ -4,9 +4,20 @@ export const DemoForm = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [repassword, setRepassword] = useState("");
+    const [passError, setPassError] = useState(true);
+
+    const sentenceCase = str => {
+        if (str === null || str === "") return "";
+        else str = str.toString();
+      
+        return str.replace(/\w\S*/g, function(txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+    };
 
     const handleNameChange = (event) => {
-        setName(event.target.value);
+        setName(sentenceCase(event.target.value));
     };
 
     const handleEmailChange = (event) => {
@@ -15,6 +26,12 @@ export const DemoForm = () => {
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
+    };
+
+    const handleRePasswordChange = (event) => {
+        const reenteredPassword = event.target.value;
+        setRepassword(reenteredPassword);
+        setPassError(password !== reenteredPassword);
     };
 
     const handleSubmit = (event) => {
@@ -40,6 +57,11 @@ export const DemoForm = () => {
                     <input type='password' value={password} onChange={handlePasswordChange} />
                 </div>
 
+                <div className='form-pass'>
+                    <label>Re-type Password: </label>
+                    <input type='password' value={repassword} onChange={handleRePasswordChange} />
+                </div>
+
                 <button type="submit">Submit</button>
             </form>
 
@@ -47,6 +69,7 @@ export const DemoForm = () => {
                 <p>Name: {name}</p>
                 <p>Email: {email}</p>
                 <p>Password: {password}</p>
+                {passError ? "Password Doesn't Match" : "Password Match"}
             </div>
         </div>
     );
