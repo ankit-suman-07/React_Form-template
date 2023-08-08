@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import "./DemoForm.css";
 
 export const DemoForm = () => {
     const [name, setName] = useState("");
+    const [age, setAge] = useState(0);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [repassword, setRepassword] = useState("");
     const [passError, setPassError] = useState(true);
+    const [validationError, setValidationError] = useState("");
 
     const sentenceCase = str => {
         if (str === null || str === "") return "";
@@ -20,18 +23,35 @@ export const DemoForm = () => {
         setName(sentenceCase(event.target.value));
     };
 
+    const handleAgeChange = (event) => {
+        const tempAge = event.target.value;
+        if(tempAge >= 0 && tempAge <= 100)
+            setAge(tempAge);
+    };
+
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
     };
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
+        if (!handlePasswordValidation(event.target.value)) {
+            setValidationError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 9 characters long.");
+        } else {
+            setValidationError("");
+        }
     };
+    
 
     const handleRePasswordChange = (event) => {
         const reenteredPassword = event.target.value;
         setRepassword(reenteredPassword);
         setPassError(password !== reenteredPassword);
+    };
+
+    const handlePasswordValidation = str => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+        return regex.test(str);
     };
 
     const handleSubmit = (event) => {
@@ -45,6 +65,11 @@ export const DemoForm = () => {
                 <div className='form-name'>
                     <label>Name: </label>
                     <input type='text' value={name} onChange={handleNameChange} />
+                </div>
+
+                <div className='form-age'>
+                    <label>Age: </label>
+                    <input type='number' value={age} onChange={handleAgeChange} />
                 </div>
 
                 <div className='form-email'>
@@ -67,9 +92,11 @@ export const DemoForm = () => {
 
             <div className='user-details'>
                 <p>Name: {name}</p>
+                <p>Age: {age}</p>
                 <p>Email: {email}</p>
                 <p>Password: {password}</p>
                 {passError ? "Password Doesn't Match" : "Password Match"}
+                <p>Valid Erro : {validationError}</p>
             </div>
         </div>
     );
