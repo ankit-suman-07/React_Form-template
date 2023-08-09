@@ -1,3 +1,9 @@
 .react-form {
     border: 2px solid black;
+    width: 500px;
+    display: flex;
+}
+
+.lang-checkbox {
+    border: 2px solid red;
 }

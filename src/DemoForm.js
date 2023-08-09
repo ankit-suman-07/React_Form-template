@@ -8,7 +8,12 @@ export const DemoForm = () => {
     const [password, setPassword] = useState("");
     const [repassword, setRepassword] = useState("");
     const [passError, setPassError] = useState(true);
-    const [validationError, setValidationError] = useState("");
+    const [validUpper, setValidUpper] = useState(true);
+    const [validLower, setValidLower] = useState(true);
+    const [validDigit, setValidDigit] = useState(true);
+    const [validSpecial, setValidSpecial] = useState(true);
+    const [validLength, setValidLength] = useState(true);
+    const [languages, setLanguages] = useState([]);
 
     const sentenceCase = str => {
         if (str === null || str === "") return "";
@@ -35,11 +40,7 @@ export const DemoForm = () => {
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
-        if (!handlePasswordValidation(event.target.value)) {
-            setValidationError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 9 characters long.");
-        } else {
-            setValidationError("");
-        }
+        handlePasswordValidation(event.target.value);
     };
     
 
@@ -50,9 +51,30 @@ export const DemoForm = () => {
     };
 
     const handlePasswordValidation = str => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
-        return regex.test(str);
+        setValidUpper(/[A-Z]/.test(str));
+        setValidLower(/[a-z]/.test(str));
+        setValidDigit(/\d/.test(str));
+        setValidSpecial(/[!@#$%^&*()_+{}\[\]:;<>,.?~]/.test(str));
+        setValidLength(str.length >= 9);
+        // const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,}$/;
+        // return regex.test(str);
     };
+
+    // const handleLanguageChange = (event) => {
+    //     const selectedOptions = Array.from(event.target.selectedOptions || [], option => option.value);
+    //     setLanguages(selectedOptions);
+    // };
+
+    const handleLanguageChange = (event) => {
+        const optionValue = event.target.value;
+        if (event.target.checked) {
+            setLanguages([...languages, optionValue]);
+        } else {
+            setLanguages(languages.filter(option => option !== optionValue));
+        }
+    };
+    
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -61,30 +83,82 @@ export const DemoForm = () => {
 
     return (
         <div className='react-form'>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='form-inner' >
                 <div className='form-name'>
                     <label>Name: </label>
-                    <input type='text' value={name} onChange={handleNameChange} />
+                    <input  type='text' value={name} onChange={handleNameChange} required />
                 </div>
 
                 <div className='form-age'>
                     <label>Age: </label>
-                    <input type='number' value={age} onChange={handleAgeChange} />
+                    <input type='number' value={age} onChange={handleAgeChange} required />
                 </div>
 
                 <div className='form-email'>
                     <label>Email: </label>
-                    <input type='text' value={email} onChange={handleEmailChange} />
+                    <input type='text' value={email} onChange={handleEmailChange} required />
                 </div>
 
                 <div className='form-pass'>
                     <label>Password: </label>
-                    <input type='password' value={password} onChange={handlePasswordChange} />
+                    <input type='password' value={password} onChange={handlePasswordChange} required />
                 </div>
 
                 <div className='form-pass'>
                     <label>Re-type Password: </label>
-                    <input type='password' value={repassword} onChange={handleRePasswordChange} />
+                    <input type='password' value={repassword} onChange={handleRePasswordChange} required />
+                </div>
+
+                <div className='lang-checkbox' >
+                    <label>Select Programming Languages:</label>
+                    <div className="language-checkboxes">
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                value="java" 
+                                checked={languages.includes("java")} 
+                                onChange={handleLanguageChange} 
+                            />
+                                Java
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                value="python" 
+                                checked={languages.includes("python")} 
+                                onChange={handleLanguageChange} 
+                            />
+                                Python
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                value="javascript" 
+                                checked={languages.includes("javascript")} 
+                                onChange={handleLanguageChange} 
+                            />
+                                JavaScript
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                value="C++" 
+                                checked={languages.includes("C++")} 
+                                onChange={handleLanguageChange} 
+                            />
+                                C++
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                value="PHP" 
+                                checked={languages.includes("PHP")} 
+                                onChange={handleLanguageChange} 
+                            />
+                                PHP
+                        </label>
+
+                    </div>
                 </div>
 
                 <button type="submit">Submit</button>
@@ -96,7 +170,15 @@ export const DemoForm = () => {
                 <p>Email: {email}</p>
                 <p>Password: {password}</p>
                 {passError ? "Password Doesn't Match" : "Password Match"}
-                <p>Valid Erro : {validationError}</p>
+                
+                {validUpper ? null : <p>Must contain atleast 1 uppercase letter</p>}
+                {validLower ? null : <p>Must contain atleast 1 lowercase letter</p>}
+                {validDigit ? null : <p>Must contain atleast 1 digit</p>}
+                {validSpecial ? null : <p>Must contain atleast 1 special character</p>}
+                {validLength ? null : <p>Must contain atleast 9 characters</p>}
+                <p>
+                    {languages}
+                </p> 
             </div>
         </div>
     );
