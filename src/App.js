@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      Main App
+      <h4>Registration - Form</h4>
       <DemoForm />
     </div>
   );

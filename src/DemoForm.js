@@ -7,7 +7,7 @@ export const DemoForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [repassword, setRepassword] = useState("");
-    const [passError, setPassError] = useState(true);
+    const [passError, setPassError] = useState(false);
     const [validUpper, setValidUpper] = useState(true);
     const [validLower, setValidLower] = useState(true);
     const [validDigit, setValidDigit] = useState(true);
@@ -84,33 +84,43 @@ export const DemoForm = () => {
     return (
         <div className='react-form'>
             <form onSubmit={handleSubmit} className='form-inner' >
-                <div className='form-name'>
+                <div className='form-parameter'>
                     <label>Name: </label>
                     <input  type='text' value={name} onChange={handleNameChange} required />
                 </div>
 
-                <div className='form-age'>
+                <div className='form-parameter'>
                     <label>Age: </label>
                     <input type='number' value={age} onChange={handleAgeChange} required />
                 </div>
 
-                <div className='form-email'>
+                <div className='form-parameter'>
                     <label>Email: </label>
                     <input type='text' value={email} onChange={handleEmailChange} required />
                 </div>
 
-                <div className='form-pass'>
+                <div className='form-parameter'>
                     <label>Password: </label>
                     <input type='password' value={password} onChange={handlePasswordChange} required />
+                    
+                </div>
+                <div className='validation-alert-div' >
+                    {validUpper ? null : <p className='validation-alert' >Must contain atleast 1 uppercase letter</p>}
+                    {validLower ? null : <p className='validation-alert' >Must contain atleast 1 lowercase letter</p>}
+                    {validDigit ? null : <p className='validation-alert' >Must contain atleast 1 digit</p>}
+                    {validSpecial ? null : <p className='validation-alert' >Must contain atleast 1 special character</p>}
+                    {validLength ? null : <p className='validation-alert' >Must contain atleast 9 characters</p>}
                 </div>
 
-                <div className='form-pass'>
+                <div className='form-parameter'>
                     <label>Re-type Password: </label>
                     <input type='password' value={repassword} onChange={handleRePasswordChange} required />
                 </div>
 
+                {!passError ? null : <p className='validation-alert-div validation-alert' >Password Doesn't Match</p>}
+
                 <div className='lang-checkbox' >
-                    <label>Select Programming Languages:</label>
+                    <label className='lang-checkbox-label' >Select Programming Languages:</label>
                     <div className="language-checkboxes">
                         <label>
                             <input 
@@ -118,6 +128,7 @@ export const DemoForm = () => {
                                 value="java" 
                                 checked={languages.includes("java")} 
                                 onChange={handleLanguageChange} 
+                                className='checkbox'
                             />
                                 Java
                         </label>
@@ -127,6 +138,7 @@ export const DemoForm = () => {
                                 value="python" 
                                 checked={languages.includes("python")} 
                                 onChange={handleLanguageChange} 
+                                className='checkbox'
                             />
                                 Python
                         </label>
@@ -136,6 +148,7 @@ export const DemoForm = () => {
                                 value="javascript" 
                                 checked={languages.includes("javascript")} 
                                 onChange={handleLanguageChange} 
+                                className='checkbox'
                             />
                                 JavaScript
                         </label>
@@ -145,6 +158,7 @@ export const DemoForm = () => {
                                 value="C++" 
                                 checked={languages.includes("C++")} 
                                 onChange={handleLanguageChange} 
+                                className='checkbox'
                             />
                                 C++
                         </label>
@@ -154,6 +168,7 @@ export const DemoForm = () => {
                                 value="PHP" 
                                 checked={languages.includes("PHP")} 
                                 onChange={handleLanguageChange} 
+                                className='checkbox'
                             />
                                 PHP
                         </label>
@@ -161,25 +176,21 @@ export const DemoForm = () => {
                     </div>
                 </div>
 
-                <button type="submit">Submit</button>
+                <button type="submit" className='submit-btn' >Submit</button>
             </form>
 
-            <div className='user-details'>
+            {/* <div className='user-details'>
                 <p>Name: {name}</p>
                 <p>Age: {age}</p>
                 <p>Email: {email}</p>
                 <p>Password: {password}</p>
                 {passError ? "Password Doesn't Match" : "Password Match"}
                 
-                {validUpper ? null : <p>Must contain atleast 1 uppercase letter</p>}
-                {validLower ? null : <p>Must contain atleast 1 lowercase letter</p>}
-                {validDigit ? null : <p>Must contain atleast 1 digit</p>}
-                {validSpecial ? null : <p>Must contain atleast 1 special character</p>}
-                {validLength ? null : <p>Must contain atleast 9 characters</p>}
+                
                 <p>
                     {languages}
                 </p> 
-            </div>
+            </div> */}
         </div>
     );
 };

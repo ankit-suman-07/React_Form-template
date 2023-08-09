@@ -2,3 +2,15 @@
   margin: 0px;
   padding: 0px;
 }
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+h4 {
+  margin: 10px;
+}
